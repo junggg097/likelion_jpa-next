@@ -1,4 +1,7 @@
 package com.example.jpanext.article.repo;
 
-public interface ArticleRepository {
-}
+import com.example.jpanext.article.entity.Article;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ArticleRepository
+        extends JpaRepository<Article, Long> {}
