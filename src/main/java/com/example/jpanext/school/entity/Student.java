@@ -19,10 +19,19 @@ public class Student {
     @Setter
     private String firstName;
     @Setter
-    @Column(name = "surname")
+    // 컬럼 이름을 설정 하고 싶을 때 ( 그 외의 기능도 많음 )
+    @Column(name = "last_name")
     private String lastName;
 
     @ManyToMany
+    // Join Table 의 모습을 정의 하고 싶을 때
+    @JoinTable(
+            name="attending_lectures",
+            // Join Table 의 나를 가르키는 FK 설정
+            joinColumns = @JoinColumn(name = "student_id"),
+            // Join Table 의 관계를 맺는 상대방의 가르키는 FK의 설정
+            inverseJoinColumns = @JoinColumn(name = "lecture_id")
+    )
     private final List<Lecture> attending = new ArrayList<>();
 
     //@ManyToMany

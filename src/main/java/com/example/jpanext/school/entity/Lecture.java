@@ -25,6 +25,7 @@ public class Lecture {
     @Setter
     private Integer endTime;
 
+    // 상세설정은 mappedBy가 가르키는 속성에 따른다.
     @ManyToMany(mappedBy = "attending")
     private final List<Student> students = new ArrayList<>();
 
