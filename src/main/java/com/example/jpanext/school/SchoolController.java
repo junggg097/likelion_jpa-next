@@ -10,11 +10,15 @@ import com.example.jpanext.school.repo.LectureRepository;
 import com.example.jpanext.school.repo.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @RestController
@@ -161,6 +165,11 @@ public class SchoolController {
                         lecture.getName(),
                         lecture.getStartTime(),
                         lecture.getEndTime()));
+        lectureRepository.findLecturesByTimeNative(10, 15).forEach(lecture ->
+                log.info("{}: {} -> {}",
+                        lecture.getName(),
+                        lecture.getStartTime(),
+                        lecture.getEndTime()));
 
         log.info("=================== named parameters");
         lectureRepository.findLecturesByTimeNamed(10, 13).forEach(lecture ->
@@ -169,7 +178,28 @@ public class SchoolController {
                         lecture.getStartTime(),
                         lecture.getEndTime()));
 
+        lectureRepository.findByDayIn(Set.of("mon", "tue")).forEach(lecture ->
+                log.info("{}: {}",
+                        lecture.getName(),
+                        lecture.getDay()));
+
+        Page<Lecture> lecturePage =
+                lectureRepository.findAll(PageRequest.of(0, 10));
+
+        lecturePage  = lectureRepository.findLecturesBeforeLunch(
+                PageRequest.of(0, 4));
+        lecturePage.stream().forEach(lecture ->
+                log.info("{}: {}", lecture.getName(), lecture.getStartTime()));
+
+        lectureRepository.findLecturesBeforeLunch(
+                Sort.by(Sort.Direction.DESC, "id")).forEach(lecture ->
+                log.info("{}: {}", lecture.getId(), lecture.getStartTime()));
+
+        lectureRepository.findLecturesBeforeLunchNative(
+                PageRequest.of(0, 4)).forEach(lecture ->
+                log.info("{}: {}", lecture.getId(), lecture.getStartTime()));
 
         return "done";
     }
+
 }
