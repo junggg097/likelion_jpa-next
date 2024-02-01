@@ -19,7 +19,10 @@ public class Instructor {
     @Setter
     private String name;
 
-    @OneToMany(mappedBy = "advisor")
+
+    //cascade : 영속성 전이
+    // cascadeType.all 이면 : persist , remove 설정 다 가능 
+    @OneToMany(mappedBy = "advisor", cascade = CascadeType.PERSIST)
     private final List<Student> advisingStudents = new ArrayList<>();
 
 }
