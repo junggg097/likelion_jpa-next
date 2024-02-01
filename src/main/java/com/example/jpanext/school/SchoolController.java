@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -198,6 +199,21 @@ public class SchoolController {
         lectureRepository.findLecturesBeforeLunchNative(
                 PageRequest.of(0, 4)).forEach(lecture ->
                 log.info("{}: {}", lecture.getId(), lecture.getStartTime()));
+
+
+        return "done";
+    }
+
+    @Transactional
+    @GetMapping("test-modifying")
+    public String modifying() {
+        log.info("modifying");
+        lectureRepository.toLongLectures().forEach(lecture ->
+                log.info("{}: {}",
+                        lecture.getName(),
+                        lecture.getEndTime() - lecture.getStartTime()));
+        lectureRepository.setLectureMaxHour3();
+        log.info("lectures over 3 hours: {}", lectureRepository.toLongLectures().size());
 
         return "done";
     }
