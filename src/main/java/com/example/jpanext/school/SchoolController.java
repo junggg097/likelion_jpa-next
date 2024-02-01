@@ -29,7 +29,7 @@ public class SchoolController {
     private final AttendingLectureRepo attendingLectureRepo;
     private final InstructorRepository instructorRepository;
     @GetMapping("many-to-many")
-    public String test() {
+    public String manyToMany() {
         Student yujin = Student.builder()
                 .name("yujin")
                 .build();
@@ -144,6 +144,32 @@ public class SchoolController {
     @GetMapping("cascade-remove")
     public String cascadeRemove() {
         instructorRepository.deleteById(1L);
+        return "done";
+    }
+
+    @GetMapping("test-query")
+    public String testQuery() {
+        log.info("JPQL Sample");
+        lectureRepository.findLecturesBeforeLunch().forEach(lecture ->
+                log.info("{}: {}", lecture.getName(), lecture.getStartTime()));
+        lectureRepository.findLecturesBeforeLunchNative().forEach(lecture ->
+                log.info("{}: {}", lecture.getName(), lecture.getStartTime()));
+
+        log.info("=================== indexed parameters");
+        lectureRepository.findLecturesByTime(10, 13).forEach(lecture ->
+                log.info("{}: {} -> {}",
+                        lecture.getName(),
+                        lecture.getStartTime(),
+                        lecture.getEndTime()));
+
+        log.info("=================== named parameters");
+        lectureRepository.findLecturesByTimeNamed(10, 13).forEach(lecture ->
+                log.info("{}: {} -> {}",
+                        lecture.getName(),
+                        lecture.getStartTime(),
+                        lecture.getEndTime()));
+
+
         return "done";
     }
 }
