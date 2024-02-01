@@ -31,4 +31,9 @@ public class Lecture {
 
     //@ManyToMany(mappedBy = "completed")
     //private final List<Student> completedStudents = new ArrayList<>();
+
+    @Getter
+    @ManyToOne
+    @JoinColumn(name = "instructor_id")
+    private Instructor instructor;
 }

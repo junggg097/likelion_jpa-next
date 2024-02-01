@@ -46,4 +46,8 @@ public class Student {
     //@ManyToMany
     //private final List<Lecture> completed = new ArrayList<>();
 
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "advisor_id")
+    private Instructor advisor;
 }
