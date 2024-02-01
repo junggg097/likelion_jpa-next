@@ -19,9 +19,13 @@ public class Student {
     @Setter
     private String firstName;
     @Setter
+    @Column(name = "surname")
     private String lastName;
 
     @ManyToMany
     private final List<Lecture> attending = new ArrayList<>();
+
+    //@ManyToMany
+    //private final List<Lecture> completed = new ArrayList<>();
 
 }
