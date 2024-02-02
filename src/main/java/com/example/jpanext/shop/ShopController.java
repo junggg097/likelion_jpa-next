@@ -11,10 +11,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ShopController {
     private final ShopService shopService;
+    private final ParentService parentService;
 
     @GetMapping("create-order")
     public String createOrder() {
         shopService.createOrder();
         return "done";
+    }
+
+    @GetMapping("propagation")
+    public void propagation() {
+        parentService.none();
     }
 }
