@@ -101,4 +101,8 @@ public interface LectureRepository
             @Param("instructorId") Long instructorId,
             @Param("day") String day
     );
+
+    // 강의 Lecture와 해당 Lecture를 듣는 학생 수의 리스트
+    @Query("SELECT l, SIZE(l.students) FROM Lecture l")
+    List<Object[]> selectWithStudentCount();
 }

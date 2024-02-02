@@ -5,7 +5,7 @@ import com.example.jpanext.school.dto.ILCountProjection;
 import com.example.jpanext.school.entity.Instructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
+import org.springframework.data.jpa.repository.Modifying;
 import java.util.List;
 
 public interface InstructorRepository
@@ -24,5 +24,19 @@ public interface InstructorRepository
             "FROM Lecture l " +
             "GROUP BY l.instructor")
     List<ILCountProjection> selectILCountProj();
+
+    // 지도학생을 데리고 있지 않은 강사를 삭제
+    @Modifying
+    @Query("DELETE FROM Instructor i " +
+            // size()는 JPQL이 제공하는 기능
+            "WHERE size(i.advisingStudents) = 0")
+    Integer sackInstructorsNotAdvising();
+
+    // 강의를 하고있지 않은 강사를 삭제
+    @Modifying
+    @Query("DELETE FROM Instructor i " +
+            "WHERE i.id NOT IN " +
+            "(SELECT DISTINCT l.instructor.id FROM Lecture l)")
+    Integer sackInstructorsNotTeaching();
 
 }

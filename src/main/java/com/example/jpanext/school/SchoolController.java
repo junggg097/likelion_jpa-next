@@ -217,6 +217,15 @@ public class SchoolController {
         lectureRepository.setLectureMaxHour3();
         log.info("lectures over 3 hours: {}", lectureRepository.toLongLectures().size());
 
+        studentRepository.noAdvisorStudents().forEach(student ->
+                log.info("{}, {}", student.getId(), student.getName()));
+
+        Instructor instructor = instructorRepository.findById(1L).get();
+        log.info("rows affected: {}",
+                studentRepository.setAdvisorForStudent(instructor));
+
+        studentRepository.noAdvisorStudents().forEach(student ->
+                log.info("{}, {}", student.getId(), student.getName()));
         return "done";
     }
 
@@ -247,6 +256,9 @@ public class SchoolController {
                     projection.getLectureCount());
         }
 
+        lectureRepository.selectWithStudentCount()
+                .forEach(objects ->
+                        log.info("{}: {}", objects));
         return "done";
     }
 }
