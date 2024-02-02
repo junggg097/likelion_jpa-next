@@ -1,5 +1,6 @@
 package com.example.jpanext.school.repo;
 
+import com.example.jpanext.school.dto.LectureStudentCount;
 import com.example.jpanext.school.entity.Instructor;
 import com.example.jpanext.school.entity.Lecture;
 import org.springframework.data.domain.Page;
@@ -103,6 +104,10 @@ public interface LectureRepository
     );
 
     // 강의 Lecture와 해당 Lecture를 듣는 학생 수의 리스트
-    @Query("SELECT l, SIZE(l.students) FROM Lecture l")
-    List<Object[]> selectWithStudentCount();
+    //    @Query("SELECT l, SIZE(l.students) FROM Lecture l")
+//    List<Object[]> selectWithStudentCount();
+
+    @Query("SELECT l AS lecture, SIZE(l.students) AS studentCount " +
+            "FROM Lecture l")
+    List<LectureStudentCount> selectWithStudentCount();
 }
