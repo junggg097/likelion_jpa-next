@@ -23,6 +23,9 @@ public class Item {
     // 재고는 주문이 들어오면 수량이 떨어지니까 setter 필요
     private Integer stock;
 
+    @Version
+    private Long version;
+
     @ManyToOne
     private Shop shop;
     @ManyToOne
