@@ -89,4 +89,11 @@ public class ShopService {
         item.setStock(item.getStock() - 10);
         itemRepository.save(item);
     }
+
+    @Transactional
+    public void decreaseStockOver() {
+        Item item = itemRepository.findById(1L).orElseThrow();
+        item.setStock(item.getStock() - 10);
+        itemRepository.save(item);
+    }
 }

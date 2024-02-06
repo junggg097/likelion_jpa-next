@@ -2,6 +2,7 @@ package com.example.jpanext.school;
 
 import com.example.jpanext.school.dto.ILCountDto;
 import com.example.jpanext.school.dto.ILCountProjection;
+import org.hibernate.collection.spi.PersistentBag;
 import com.example.jpanext.school.entity.AttendingLectures;
 import com.example.jpanext.school.entity.Instructor;
 import com.example.jpanext.school.entity.Lecture;
@@ -263,6 +264,66 @@ public class SchoolController {
                                 projection.getStudentCount()));
 //                .forEach(objects ->
 //                        log.info("{}: {}", objects));
+        return "done";
+    }
+
+    @GetMapping("entity-graph")
+    public String entityGraph() {
+        List<Instructor> instructors = instructorRepository.findByEntityGraph();
+        for (Instructor instructor: instructors) {
+            log.info("{}", instructor.getAdvisingStudents().size());
+        }
+        return "done";
+    }
+
+    @GetMapping("fetch-join")
+    public String fetchJoin() {
+//        List<Student> students = studentRepository.findAllFetchAdvisor();
+//        for (Student student: students) {
+//            student.getAdvisor().getName();
+//        }
+        List<Instructor> instructors = instructorRepository.findAllFetchStudents();
+        for (Instructor instructor: instructors) {
+            log.info("{}", instructor.getAdvisingStudents().size());
+        }
+
+        return "done";
+    }
+
+    @GetMapping("join")
+    public String join() {
+        log.info("{}", studentRepository.findAllJoin().size());
+        log.info("{}", studentRepository.findAllLeftJoin().size());
+        log.info("{}", studentRepository.findAllRightJoin().size());
+        log.info("{}", studentRepository.findByAdvisorName("Plato Best"));
+
+//        for (Student student: studentRepository.findAllJoin()) {
+//            student.getAdvisor().getName();
+//        }
+
+
+        return "done";
+    }
+
+    @GetMapping("fetch-type")
+    public String fetchType() {
+//        List<Instructor> instructors = instructorRepository.findAll();
+//        for (Instructor instructor: instructors) {
+//            // PersistentBag
+//            log.info("{}", instructor.getAdvisingStudents().getClass());
+//        }
+//        List<Student> students = studentRepository.findAll();
+//        for (Student student: students) {
+//            if (student.getAdvisor() != null) {
+//                log.info("{}", student.getAdvisor().getClass());
+//                log.info("{}", student.getAdvisor().getId());
+//            }
+//        }
+
+        // SELECT t FROM T t;
+        instructorRepository.findAll();
+        studentRepository.findAll();
+
         return "done";
     }
 }

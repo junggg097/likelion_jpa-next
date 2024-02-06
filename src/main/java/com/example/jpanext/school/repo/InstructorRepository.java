@@ -6,6 +6,7 @@ import com.example.jpanext.school.entity.Instructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.EntityGraph;
 import java.util.List;
 
 public interface InstructorRepository
@@ -38,5 +39,17 @@ public interface InstructorRepository
             "WHERE i.id NOT IN " +
             "(SELECT DISTINCT l.instructor.id FROM Lecture l)")
     Integer sackInstructorsNotTeaching();
+
+    @Query("SELECT DISTINCT i " +
+            "FROM Instructor i " +
+            "    LEFT JOIN FETCH i.advisingStudents")
+    List<Instructor> findAllFetchStudents();
+
+    @EntityGraph(
+            attributePaths = {"advisingStudents"},
+            type = EntityGraph.EntityGraphType.FETCH
+    )
+    @Query("SELECT DISTINCT i FROM Instructor i")
+    List<Instructor> findByEntityGraph();
 
 }

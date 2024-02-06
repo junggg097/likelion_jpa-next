@@ -47,7 +47,7 @@ public class Student {
     //private final List<Lecture> completed = new ArrayList<>();
 
     @Setter
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "advisor_id")
     private Instructor advisor;
 }

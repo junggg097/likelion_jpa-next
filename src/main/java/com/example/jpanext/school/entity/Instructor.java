@@ -22,7 +22,7 @@ public class Instructor {
 
     //cascade : 영속성 전이
     // cascadeType.all 이면 : persist , remove 설정 다 가능 
-    @OneToMany(mappedBy = "advisor", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "advisor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private final List<Student> advisingStudents = new ArrayList<>();
 
 }

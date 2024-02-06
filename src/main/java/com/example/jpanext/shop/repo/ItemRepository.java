@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import java.util.Optional;
-
+import org.springframework.lang.NonNull;
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
     @Lock(LockModeType.PESSIMISTIC_READ)
@@ -22,4 +22,8 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             @Param("id") Long id
     );
 
+    //    @Override
+//    @NonNull
+//    @Lock(LockModeType.PESSIMISTIC_WRITE)
+//    Optional<Item> findById(@NonNull Long id);
 }
