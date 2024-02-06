@@ -29,7 +29,7 @@ public class Student {
     private String phone;
     private String email;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     // Join Table 의 모습을 정의 하고 싶을 때
     @JoinTable(
             name="attending_lectures",
@@ -40,7 +40,7 @@ public class Student {
     )
     private final List<Lecture> attending = new ArrayList<>();
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     private final List<AttendingLectures> attendingLectures = new ArrayList<>();
 
     //@ManyToMany

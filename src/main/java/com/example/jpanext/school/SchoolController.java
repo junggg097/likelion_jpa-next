@@ -270,8 +270,13 @@ public class SchoolController {
     @GetMapping("entity-graph")
     public String entityGraph() {
         List<Instructor> instructors = instructorRepository.findByEntityGraph();
-        for (Instructor instructor: instructors) {
-            log.info("{}", instructor.getAdvisingStudents().size());
+
+        List<Student> students = studentRepository.findAll();
+        for (Student student: students) {
+            if (student.getAdvisor() != null) {
+                log.info("{}", student.getAdvisor().getClass());
+                log.info("{}", student.getAdvisor().getId());
+            }
         }
         return "done";
     }
@@ -326,4 +331,18 @@ public class SchoolController {
 
         return "done";
     }
+
+    @GetMapping("multi-bag")
+    public String multiBag() {
+        List<Instructor> instructors
+                = instructorRepository.findWithStudentAndLecture();
+
+        for (Instructor instructor: instructors) {
+            log.info("{}", instructor.getAdvisingStudents().size());
+            log.info("{}", instructor.getLectures().size());
+        }
+        return "done";
+    }
+
+
 }

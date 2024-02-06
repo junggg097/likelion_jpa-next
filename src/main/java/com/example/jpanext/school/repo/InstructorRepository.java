@@ -52,4 +52,11 @@ public interface InstructorRepository
     @Query("SELECT DISTINCT i FROM Instructor i")
     List<Instructor> findByEntityGraph();
 
+    @EntityGraph(
+            attributePaths = {"advisingStudents", "lectures"},
+            type = EntityGraph.EntityGraphType.FETCH
+    )
+    @Query("SELECT DISTINCT i FROM Instructor i")
+    List<Instructor> findWithStudentAndLecture();
+
 }

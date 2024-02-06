@@ -26,14 +26,14 @@ public class Lecture {
     private Integer endTime;
 
     // 상세설정은 mappedBy가 가르키는 속성에 따른다.
-    @ManyToMany(mappedBy = "attending")
+    @ManyToMany(mappedBy = "attending", fetch = FetchType.LAZY)
     private final List<Student> students = new ArrayList<>();
 
     //@ManyToMany(mappedBy = "completed")
     //private final List<Student> completedStudents = new ArrayList<>();
 
     @Getter
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instructor_id")
     private Instructor instructor;
 }
